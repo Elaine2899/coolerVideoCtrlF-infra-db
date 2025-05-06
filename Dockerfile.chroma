@@ -1,0 +1,2 @@
+FROM ghcr.io/chroma-core/chroma:latest
+# 如需設定 port、記憶體限制，可再加 ENV
