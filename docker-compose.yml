@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  chromadb:
+    image: chromadb/chroma
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma-data:/chroma
+    environment:
+      IS_PERSISTENT: "TRUE"
+      CHROMA_DB_IMPL: "duckdb"
+
+volumes:
+  pgdata:
+  chroma-data:
