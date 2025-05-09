@@ -1,27 +1,24 @@
 services:
-  postgres:
-    image: postgres:15
-    restart: always
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_dbname
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
     volumes:
       - pgdata:/var/lib/postgresql/data
-
   chromadb:
-    image: chromadb/chroma
-    restart: always
+    image: chromadb/chroma:0.6.4.dev19
+    container_name: chromadb
     ports:
-      - "8000:8000"
-    volumes:
-      - chroma-data:/chroma
+      - "8001:8000"
     environment:
       IS_PERSISTENT: "TRUE"
-      CHROMA_DB_IMPL: "duckdb"
-
+      ANONYMIZED_TELEMETRY: "TRUE"
+    volumes:
+      - ./chroma_data:/chroma/chroma
 volumes:
   pgdata:
-  chroma-data:
